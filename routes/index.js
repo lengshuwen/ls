@@ -218,4 +218,47 @@ router.get("/udelete",(req,res)=>{
 		}
 	})
 })
+router.post("/update",(req,res)=>{
+	console.log(req.body.content);
+	console.log(req.body.username);
+	connection.query("update article set articleContent=? where articleAuthor=?",[req.body.content,req.body.username],(err,data)=>{
+		if(err){console.log(err); res.json({result:"修改失败"})}else{res.json({result:"修改成功"})}
+	})
+})
+router.get("/textarea/:articleID",(req,res)=>{
+	var articleID = req.params.articleID;
+	var sql = 'SELECT * FROM article WHERE articleID='+articleID;
+	con.query(sql,function(err,rows,fields){
+		if(err){
+			console.log(err);
+			return;
+		}
+		var sql2 = 'UPDATE article SET articleClick=articleClick+1 WHERE articleID='+articleID;
+		var article = rows[0];
+		con.query(sql2,function(err,rows,fields){
+			if(err){
+				console.log(err);
+				return;
+			}
+			var year = article.articleTime.getFullYear();
+			var month = article.articleTime.getMonth()+1 >10?
+			article.articleTime.getMonth()+1:'0'+(article.articleTime.getMonth()+1);
+			var day = article.articleTime.getDate() >10?
+			article.articleTime.getDate():'0'+article.articleTime.getDate();
+			article.articleTime = year + '-' + month + '-' + day;
+			if(req.session.user){//判断session是否存在
+				res.render('textarea',{
+					article:article,
+					isLogin:true,
+					username:req.session.user.username
+				});
+			}else{
+				res.render('textarea',{
+					article:article,
+					isLogin:false
+				});
+			}
+		});
+	});
+})
 module.exports = router;

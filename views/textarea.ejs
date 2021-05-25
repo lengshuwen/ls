@@ -25,25 +25,17 @@
     			</p>
 	    	</div>
 	    	<div class="article-content">
-				<span></span>
+				<textarea class="content" name="" id="" cols="135" rows="100"><%= article.articleContent %></textarea>;
 	    	</div>
 	    </div>
 		</div>
 		<button class="sss" style="margin-left: 30%;width: 100px;height: 30px;background-color: yellow;">删除</button>
-		<button style="margin-left: 30%;width: 100px;height: 30px;background-color: yellow;"><a href="/textarea/<%= article.articleID %> ">修改</a></button>
+		<button class="zzz" style="margin-left: 30%;width: 100px;height: 30px;background-color: yellow;">保存</button>
 		
   </body>
   <script type="text/javascript">
   	$(function(){
-  		var content = '<%= article.articleContent %>';
-  		//↓字符串转译成html标签
-  		function escapeStringHTML(str) {
-			    str = str.replace(/&lt;/g,'<');
-			    str = str.replace(/&gt;/g,'>');
-			    str = str.replace(/&#34;/g,'"');
-			    return str;
-			}
-  		$('.article-content span').html(escapeStringHTML(content));
+  	
 		  $('.sss').click(function(event){
   		event.preventDefault();
 			$.ajax({
@@ -52,6 +44,24 @@
 			  data:{
 			   	username:$('.use').html(),
 			   	title:$('.tit').html()
+			  },
+			  success: function(data){
+			    alert(data.result);
+			    
+			    	window.location.href ="/";
+			    
+			  }
+			});
+  	});
+      $('.zzz').click(function(){
+  		
+			$.ajax({
+		   	url: '/update',
+			  type:'POST',
+			  data:{
+			   	username:$('.use').html(),
+			   	title:$('.tit').html(),
+                content:$(".content").html()
 			  },
 			  success: function(data){
 			    alert(data.result);
