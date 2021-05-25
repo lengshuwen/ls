@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+		<meta content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="/javascripts/jquery.min.js"></script>
+    <title>阿舒的个人博客</title>
+	</head>
+  <body >
+  	<div class="home">
+  		<%- include('../public/header.ejs') %>
+	    <!-- 文章内容页 -->
+	    <div class="article">
+	    	<div class="article-title">
+	    		<p class="tit"><%= article.articleTitle %></p>
+	    		<p><span>作者：</span>
+    				<span class="use"><%= article.articleAuthor %></span>
+    				<span>
+    					发布时间：<%= article.articleTime %>
+    				</span>
+    				<span>
+    					浏览量：<%= article.articleClick %>
+    				</span>
+    			</p>
+	    	</div>
+	    	<div class="article-content">
+<span></span>
+	    	</div>
+	    </div>
+		</div>
+		<button class="sss" style="margin-left: 50%;width: 100px;height: 30px;background-color: yellow;">删除</button>
+  </body>
+  <script type="text/javascript">
+  	$(function(){
+  		var content = '<%= article.articleContent %>';
+  		//↓字符串转译成html标签
+  		function escapeStringHTML(str) {
+			    str = str.replace(/&lt;/g,'<');
+			    str = str.replace(/&gt;/g,'>');
+			    str = str.replace(/&#34;/g,'"');
+			    return str;
+			}
+  		$('.article-content span').html(escapeStringHTML(content));
+		  $('.sss').click(function(event){
+  		event.preventDefault();
+			$.ajax({
+		   	url: '/delete',
+			  type:'POST',
+			  data:{
+			   	username:$('.use').html(),
+			   	title:$('.tit').html()
+			  },
+			  success: function(data){
+			    alert(data.result);
+			    
+			    	window.location.href ="/";
+			    
+			  }
+			});
+  	});
+  	});
+	 
+  </script>
+</html>
