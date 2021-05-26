@@ -66,38 +66,21 @@
       </ol>
       <!-- Example DataTables Card-->
       <div class="card mb-3">
-        <div class="card-header">
-          <i class="fa fa-table"></i>用户</div>
-        <div class="card-body">
-          <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-              <thead>
-                <tr>
-                  <th>姓名</th>
-                  <th>密码</th>
-                  <th>选项</th>
-                  
-                </tr>
-              </thead>
-              
-              <tbody>
-               <%for(var i =0;i<data.length;i++){ %>
-                <tr>
-                  <td class="username"><%= data[i].username %> </td>
-                  <td><%= data[i].password %> </td>
-                  
-                  <td><a name=<%=  data[i].username%>  class="udelete" href="">删除</a></td>
-                  
-                </tr>
-                <% } %> 
-              </tbody>
-              
-            </table>
-            <a class="btn btn-primary btn-block" href="/add">添加用户</a>
-          </div>
-        </div>
-        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-      </div>
+        <form>
+            <div class="form-group">
+              <label for="exampleInputEmail1">用户账号</label>
+              <input class="form-control" id="reg-username" type="email" aria-describedby="emailHelp" placeholder="用户账号">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">用户密码</label>
+              <input class="form-control" id="reg-password" type="password" placeholder="用户密码">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">用户密码</label>
+                <input class="form-control" id="reg-password2" type="password" placeholder="确认密码">
+              </div>
+            <a id="add" class="btn btn-primary btn-block">添加</a>
+          </form>
     </div>
     <!-- /.container-fluid-->
     <!-- /.content-wrapper-->
@@ -144,18 +127,19 @@
     <script src="javascript/sb-admin-datatables.min.js"></script>
     <script>
       $(function(){
-        $('.udelete').click(function(){
+        $('#add').click(function(){
   		
 			$.ajax({
-		   	url: '/udelete',
-			  type:'get',
+		   	url: '/ajax_reg',
+			  type:'post',
 			  data:{
-			   	username:$(this).attr("name"),
-			   
+                username:$('#reg-username').val(),
+			   	password:$('#reg-password').val(),
+			   	password2:$('#reg-password2').val(),
 			  },
 			  success: function(data){
-			    alert(data.result)
-			    
+			    alert(data.message)
+			    window.location.href="/tables"
 			  }
 			});
   	});

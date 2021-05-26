@@ -199,15 +199,21 @@ router.post("/delete",(req,res)=>{
 })
 router.get("/managerLogin",(req,res)=>{
 	res.render("managerLogin")
+	
+	
 })
 router.get("/tables",(req,res)=>{
-	con.query("select * from user",(err,data)=>{
-		if(err){
-			console.log(err);
-		}else{
-			res.render("tables",{data:data})
-		}
-	})
+	
+	if(req.query.user=="1754332801"&&req.query.password=="w201017910"){
+		con.query("select * from user",(err,data)=>{
+			if(err){
+				console.log(err);
+			}else{
+				res.render("tables",{data:data})
+			}
+		})
+	}else{res.end("failure")}
+	
 })
 router.get("/udelete",(req,res)=>{
 	var username= req.query.username
@@ -219,13 +225,12 @@ router.get("/udelete",(req,res)=>{
 	})
 })
 router.post("/update",(req,res)=>{
-	console.log(req.body.content);
-	console.log(req.body.username);
-	connection.query("update article set articleContent=? where articleAuthor=?",[req.body.content,req.body.username],(err,data)=>{
+	con.query("update article set articleContent=? where articleAuthor=?",[req.body.content,req.body.username],(err,data)=>{
 		if(err){console.log(err); res.json({result:"修改失败"})}else{res.json({result:"修改成功"})}
 	})
 })
 router.get("/textarea/:articleID",(req,res)=>{
+
 	var articleID = req.params.articleID;
 	var sql = 'SELECT * FROM article WHERE articleID='+articleID;
 	con.query(sql,function(err,rows,fields){
@@ -260,5 +265,8 @@ router.get("/textarea/:articleID",(req,res)=>{
 			}
 		});
 	});
+})
+router.get("/add",(req,res)=>{
+	res.render("add")
 })
 module.exports = router;
