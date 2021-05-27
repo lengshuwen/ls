@@ -212,7 +212,7 @@ router.get("/tables",(req,res)=>{
 				res.render("tables",{data:data})
 			}
 		})
-	}else{res.end("failure")}
+	}else{res.redirect("/login")}
 	
 })
 router.get("/udelete",(req,res)=>{
