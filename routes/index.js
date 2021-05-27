@@ -204,7 +204,7 @@ router.get("/managerLogin",(req,res)=>{
 })
 router.get("/tables",(req,res)=>{
 	
-	if(req.query.user=="1754332801"&&req.query.password=="w201017910"){
+	if(req.query.user=="阿舒"&&req.query.password=="202000892"){
 		con.query("select * from user",(err,data)=>{
 			if(err){
 				console.log(err);
