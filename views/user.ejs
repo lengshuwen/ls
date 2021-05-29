@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-  <title>SB Admin</title>
+  <title>后台管理</title>
   <!-- Bootstrap core CSS-->
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <!-- Custom fonts for this template-->
@@ -56,32 +56,29 @@
     </div>
   </nav>
   <div class="content-wrapper">
-    <div class="container-fluid">
-      <!-- Breadcrumbs-->
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-          <a href="#">用户管理</a>
-        </li>
+    <div class="container mt-3">
+      <h1>输入框添加按钮组</h1>
+     
+    
+      <div class="input-group mb-3">
+        <span>用户名:</span>
         
-      </ol>
-      <!-- Example DataTables Card-->
-      <div class="card mb-3">
-        <form>
-            <div class="form-group">
-              <label for="exampleInputEmail1">用户账号</label>
-              <input class="form-control" id="reg-username" type="email" aria-describedby="emailHelp" placeholder="用户账号">
-            </div>
-            <div class="form-group">
-              <label for="exampleInputPassword1">用户密码</label>
-              <input class="form-control" id="reg-password" type="password" placeholder="用户密码">
-            </div>
-            <div class="form-group">
-                <label for="exampleInputPassword1">用户密码</label>
-                <input class="form-control" id="reg-password2" type="password" placeholder="确认密码">
-              </div>
-            <a id="add" class="btn btn-primary btn-block">添加</a>
-          </form>
+        <div id="user" ><%=data[0].username %></div>
+        <div class="input-group-append">
+           
+         </div>
+      </div>
+    
+      <div class="input-group mb-3">
+        <span>密码</span>
+        <input id="password" value="<%=data[0].password %>" type="text" class="form-control" placeholder="Something clever..">
+        <div class="input-group-append">
+            
+         </div>
+      </div>
+      <button id="update" style="margin-left: 50%;" class="btn btn-success" type="submit">保存</button> 
     </div>
+    
     <!-- /.container-fluid-->
     <!-- /.content-wrapper-->
     <footer class="sticky-footer">
@@ -127,22 +124,22 @@
     <script src="javascripts/sb-admin-datatables.min.js"></script>
     <script>
       $(function(){
-        $('#add').click(function(){
+        $('#update').click(function(){
   		
 			$.ajax({
-		   	url: '/ajax_reg',
-			  type:'post',
+		   	url: '/update/password',
+			  type:'get',
 			  data:{
-                username:$('#reg-username').val(),
-			   	password:$('#reg-password').val(),
-			   	password2:$('#reg-password2').val(),
+			  username:$("#user").html(),
+			   password:$("#password").val()
 			  },
 			  success: function(data){
-			    alert(data.message)
-			    window.location.href="/tables"
+			    alert(data.result)
+			    window.location.href="http://localhost:3000/tables?user=%E9%98%BF%E8%88%92&password=202000892"
 			  }
 			});
   	});
+
       })
     </script>
   </div>

@@ -86,7 +86,9 @@
                   <td class="username"><%= data[i].username %> </td>
                   <td><%= data[i].password %> </td>
                   
-                  <td><a name=<%=  data[i].username%>  class="udelete" href="">删除</a></td>
+                  <td><a name=<%=  data[i].username%>  class="udelete" href="">删除</a>
+                    <a href="/<%=  data[i].username%> ">修改</a>
+                  </td>
                   
                 </tr>
                 <% } %> 
@@ -94,6 +96,7 @@
               
             </table>
             <a class="btn btn-primary btn-block" href="/add">添加用户</a>
+            
           </div>
         </div>
         <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
@@ -139,9 +142,9 @@
     <script src="vendor/datatables/jquery.dataTables.js"></script>
     <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
     <!-- Custom scripts for all pages-->
-    <script src="javascript/sb-admin.min.js"></script>
+    <script src="javascripts/sb-admin.min.js"></script>
     <!-- Custom scripts for this page-->
-    <script src="javascript/sb-admin-datatables.min.js"></script>
+    <script src="javascripts/sb-admin-datatables.min.js"></script>
     <script>
       $(function(){
         $('.udelete').click(function(){
@@ -159,6 +162,7 @@
 			  }
 			});
   	});
+
       })
     </script>
   </div>

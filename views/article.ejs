@@ -30,7 +30,7 @@
 	    </div>
 		</div>
 		<button class="sss" style="margin-left: 30%;width: 100px;height: 30px;background-color: yellow;">删除</button>
-		<button style="margin-left: 30%;width: 100px;height: 30px;background-color: yellow;"><a href="/textarea/<%= article.articleID %> ">修改</a></button>
+		<button id="ddd" style="margin-left: 30%;width: 100px;height: 30px;background-color: yellow;"><a >修改</a></button>
 		
   </body>
   <script type="text/javascript">
@@ -61,6 +61,23 @@
 			  }
 			});
   	});
+	  $('#ddd').click(function(){
+  		
+		  $.ajax({
+			 url: '/judge',
+			type:'get',
+			data:{
+				username:$('.use').html(),
+			 
+			},
+			success: function(data){
+			  if(data.judge==0){alert(data.result)}else{
+				window.location.href="/textarea/<%= article.articleID %> "
+			  }
+			  
+			}
+		  });
+	});
   	});
 	 
   </script>

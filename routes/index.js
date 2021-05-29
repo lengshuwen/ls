@@ -184,7 +184,7 @@ router.post('/ajax_edit',function(req,res,next){
 });
 router.post("/delete",(req,res)=>{
 	
-	if(req.session.user.username){
+	if(req.session.user){
 		
 		if(req.session.user.username==req.body.username){
 			
@@ -269,4 +269,25 @@ router.get("/textarea/:articleID",(req,res)=>{
 router.get("/add",(req,res)=>{
 	res.render("add")
 })
+router.get("/update/password",(req,res)=>{
+	console.log(req.query.password);
+	con.query("update user set password=? where username=?",[req.query.password,req.query.username],(err,data)=>{
+if(err){res.json({result:"修改失败"})}else{res.json({result:"修改成功"})}
+	})
+})
+router.get("/judge",(req,res)=>{
+	console.log(req.query.username);
+	if(req.session.user){
+		if(req.query.username==req.session.user.username){
+		res.json({judge:1})
+	}else{res.json({judge:0,result:"仅限本人修改"})}}
+	else {res.json({judge:0,result:"未登录"})}
+})
+router.get("/:username",(req,res)=>{
+	var username =req.params.username
+	con.query("select * from user where username=?",[username],(err,data)=>{
+		res.render("user",{data:data})
+	})
+	
+  })
 module.exports = router;
