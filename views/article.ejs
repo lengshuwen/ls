@@ -31,9 +31,18 @@
 		</div>
 		<button class="sss" style="margin-left: 30%;width: 100px;height: 30px;background-color: yellow;">删除</button>
 		<button id="ddd" style="margin-left: 30%;width: 100px;height: 30px;background-color: yellow;"><a >修改</a></button>
-		
+		<div style="padding-bottom: 30px;width: 1024px;margin:0 auto;border: solid 1px;border-radius: 10px;box-shadow: 0 0 10px #c0c0c0;" >
+			评论：
+			<% for(var i=0;i<comment.length;i++){ %> 
+				<div style="padding-top: 10px;"><%= comment[i].auther %>:<%= comment[i].content %> </div>
+				<% } %> 
+		</div>
+		<div style="margin-left: 16%;">发表评论:</div>
+		<input id="comment" style="display:block;outline: none;height: 30px;;width: 1024px;margin:0 auto;border: solid 1px;border-radius: 10px;box-shadow: 0 0 10px #c0c0c0;" type="text">
+		<button id="commentb" style="margin-top: 50px;margin-left: 65%;width: 100px;height: 30px;background-color: rgb(37, 45, 158);"><a >评论</a></button>
   </body>
   <script type="text/javascript">
+  var articleID="<%= article.articleID %>"
   	$(function(){
   		var content = '<%= article.articleContent %>';
   		//↓字符串转译成html标签
@@ -74,6 +83,23 @@
 			  if(data.judge==0){alert(data.result)}else{
 				window.location.href="/textarea/<%= article.articleID %> "
 			  }
+			  
+			}
+		  });
+	});
+	$('#commentb').click(function(){
+  		
+		  $.ajax({
+			 url: '/comment',
+			type:'post',
+			data:{
+				articleID:articleID,
+				
+				content:$('#comment').val()
+			},
+			success: function(data){
+				alert(data.result)
+				window.location.reload(true);
 			  
 			}
 		  });

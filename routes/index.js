@@ -124,13 +124,17 @@ router.get('/logout', function (req, res) {
 router.get('/articles/:articleID',function(req, res, next) {
 	var articleID = req.params.articleID;
 	var sql = 'SELECT * FROM article WHERE articleID='+articleID;
+	sql=sql+";select*from comment where articleID="+articleID;
 	con.query(sql,function(err,rows,fields){
 		if(err){
 			console.log(err);
 			return;
 		}
 		var sql2 = 'UPDATE article SET articleClick=articleClick+1 WHERE articleID='+articleID;
-		var article = rows[0];
+		
+		var article = rows[0][0];
+		var comment=rows[1]
+		
 		con.query(sql2,function(err,rows,fields){
 			if(err){
 				console.log(err);
@@ -146,11 +150,13 @@ router.get('/articles/:articleID',function(req, res, next) {
 				res.render('article',{
 					article:article,
 					isLogin:true,
+					comment:comment,
 					username:req.session.user.username
 				});
 			}else{
 				res.render('article',{
 					article:article,
+					comment:comment,
 					isLogin:false
 				});
 			}
@@ -289,5 +295,12 @@ router.get("/:username",(req,res)=>{
 		res.render("user",{data:data})
 	})
 	
+  })
+  router.post("/comment",(req,res)=>{
+	  if(req.session.user){
+		con.query("insert comment values(?,?,?)",[req.body.articleID,req.body.content,req.session.user.username],(err,data)=>{
+			if(err){console.log(err);;res.json({result:"评论失败"})}else{res.json({result:"评论成功"})}
+		})
+	  }else{res.json({result:"未登录"})}
   })
 module.exports = router;
