@@ -124,16 +124,16 @@ router.get('/logout', function (req, res) {
 router.get('/articles/:articleID',function(req, res, next) {
 	var articleID = req.params.articleID;
 	var sql = 'SELECT * FROM article WHERE articleID='+articleID;
-	sql=sql+";select*from comment where articleID="+articleID;
+	sql=sql+";select*from comment where articleID="+articleID;//查找评论
 	con.query(sql,function(err,rows,fields){
 		if(err){
 			console.log(err);
 			return;
 		}
-		var sql2 = 'UPDATE article SET articleClick=articleClick+1 WHERE articleID='+articleID;
+		var sql2 = 'UPDATE article SET articleClick=articleClick+1 WHERE articleID='+articleID;//增加浏览次数
 		
 		var article = rows[0][0];
-		var comment=rows[1]
+		var comment=rows[1];
 		
 		con.query(sql2,function(err,rows,fields){
 			if(err){
@@ -230,7 +230,7 @@ router.get("/udelete",(req,res)=>{
 		}
 	})
 })
-router.post("/update",(req,res)=>{
+router.post("/update",(req,res)=>{//修改文章
 	con.query("update article set articleContent=? where articleAuthor=?",[req.body.content,req.body.username],(err,data)=>{
 		if(err){console.log(err); res.json({result:"修改失败"})}else{res.json({result:"修改成功"})}
 	})
